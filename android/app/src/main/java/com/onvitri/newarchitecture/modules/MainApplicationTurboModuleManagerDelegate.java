@@ -1,4 +1,4 @@
-package com.onvitri.newarchitecture.modules;
+package com.onvitri.shopkeeper.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;

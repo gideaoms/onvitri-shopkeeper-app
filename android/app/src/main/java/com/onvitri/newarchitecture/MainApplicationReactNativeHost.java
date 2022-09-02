@@ -1,4 +1,4 @@
-package com.onvitri.newarchitecture;
+package com.onvitri.shopkeeper.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -20,9 +20,9 @@ import com.facebook.react.fabric.EmptyReactNativeConfig;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.onvitri.BuildConfig;
-import com.onvitri.newarchitecture.components.MainComponentsRegistry;
-import com.onvitri.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.onvitri.shopkeeper.BuildConfig;
+import com.onvitri.shopkeeper.newarchitecture.components.MainComponentsRegistry;
+import com.onvitri.shopkeeper.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 
