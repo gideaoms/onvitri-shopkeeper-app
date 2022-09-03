@@ -4,6 +4,11 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "sdkVersion": "46.0.0"
+    "sdkVersion": "46.0.0",
+    "extra": {
+      "eas": {
+        "projectId": "3d3ffc36-34bf-4ccb-af93-de9bf73bc05b"
+      }
+    }
   }
 }
