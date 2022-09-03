@@ -1,10 +1,9 @@
 {
   "expo": {
-    "name": "onvitri",
-    "slug": "onvitri",
-    "version": "1.0.0",
+    "slug": "onvitri-shopkeeper-app",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "sdkVersion": "46.0.0"
   }
 }
