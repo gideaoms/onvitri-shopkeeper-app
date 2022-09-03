@@ -19,9 +19,12 @@ export function ProductRepository(): IProductRepository {
 
   async function findMany(page: number) {
     try {
-      const result = await http.get<ListOf<ProductObject & { store: StoreObject & { city: CityObject } }>>('products', {
-        params: { page: page },
-      });
+      const result = await http.get<ListOf<ProductObject & { store: StoreObject & { city: CityObject } }>>(
+        'products',
+        {
+          params: { page: page },
+        },
+      );
       return success({
         hasMore: Boolean(result.headers['x-has-more'] === 'true'),
         items: result.data.map((product) => ({
