@@ -1,5 +1,5 @@
-import { InvariantError } from '@/errors/invariant';
 import currency from 'currency.js';
+import { InvariantError } from '@/errors/invariant';
 
 export function isNil(value: unknown) {
   return value === undefined || value === null;

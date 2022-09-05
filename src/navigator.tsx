@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { hideAsync, preventAutoHideAsync } from 'expo-splash-screen';
+import { hideAsync } from 'expo-splash-screen';
 import { useFonts, Nunito_400Regular, Nunito_700Bold } from '@expo-google-fonts/nunito';
 import { useSession } from '@/contexts/session';
 import { KeeperProvider } from '@/providers/keeper';
@@ -26,8 +26,6 @@ export function Navigator() {
   const setStores = useStore((context) => context.setStores);
 
   async function onStart() {
-    // copiar os detalhes do projeto consumer
-    await preventAutoHideAsync();
     const token = await keeperProvider.find(KeeperProvider.KEY_TOKEN);
     if (token) {
       const user = await sessionRepository.findOne(token);

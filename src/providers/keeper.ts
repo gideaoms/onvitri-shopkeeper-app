@@ -1,17 +1,34 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { captureException } from '@sentry/react-native';
 import { IKeeperProvider } from '@/types/providers/keeper';
 
 export function KeeperProvider(): IKeeperProvider {
-  function find(key: string) {
-    return AsyncStorage.getItem(key);
+  async function find(key: string) {
+    try {
+      const item = await AsyncStorage.getItem(key);
+      return item;
+    } catch (err) {
+      captureException(err);
+      throw err;
+    }
   }
 
-  function remove(key: string) {
-    return AsyncStorage.removeItem(key);
+  async function remove(key: string) {
+    try {
+      await AsyncStorage.removeItem(key);
+    } catch (err) {
+      captureException(err);
+      throw err;
+    }
   }
 
-  function save(key: string, token: string) {
-    return AsyncStorage.setItem(key, token);
+  async function save(key: string, token: string) {
+    try {
+      await AsyncStorage.setItem(key, token);
+    } catch (err) {
+      captureException(err);
+      throw err;
+    }
   }
 
   return {
