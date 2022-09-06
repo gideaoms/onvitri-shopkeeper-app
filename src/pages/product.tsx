@@ -4,7 +4,12 @@ import uuid from 'react-native-uuid';
 import { Controller, useForm } from 'react-hook-form';
 import { RectButton, BorderlessButton } from 'react-native-gesture-handler';
 import { PlusCircle, HourglassHigh, Trash } from 'phosphor-react-native';
-import { launchCameraAsync, launchImageLibraryAsync, MediaTypeOptions, ImagePickerResult } from 'expo-image-picker';
+import {
+  launchCameraAsync,
+  launchImageLibraryAsync,
+  MediaTypeOptions,
+  ImagePickerResult,
+} from 'expo-image-picker';
 import { TextInput } from '@/components/atoms/text-input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -141,7 +146,9 @@ export function ProductPage() {
       if (isSuccess(result)) {
         setProduct((product) => ({
           ...product,
-          pictures: product.pictures.map((picture) => (picture.id === pictureToAdd.id ? result.success : picture)),
+          pictures: product.pictures.map((picture) =>
+            picture.id === pictureToAdd.id ? result.success : picture,
+          ),
         }));
       } else {
         setErrorMessage(result.failure.message);
@@ -359,7 +366,6 @@ export function ProductPage() {
         <Box height="md" />
         <Button
           loading={isSubmitting && statusRef.current === 'active'}
-          disabled={isSubmitting}
           title="Salvar e publicar"
           color="shape.100"
           background="primary"
@@ -371,7 +377,6 @@ export function ProductPage() {
         <Box height="md" />
         <Button
           loading={isSubmitting && statusRef.current === 'inactive'}
-          disabled={isSubmitting}
           title="Salvar como rascunho"
           color="shape.100"
           background="secondary"
