@@ -17,13 +17,11 @@ export function ProductRepository(): IProductRepository {
   const storeMapper = StoreMapper();
   const cityMapper = CityMapper();
 
-  async function findMany(page: number) {
+  async function findMany(page: number, storeId: string) {
     try {
       const result = await http.get<ListOf<ProductObject & { store: StoreObject & { city: CityObject } }>>(
         'products',
-        {
-          params: { page: page },
-        },
+        { params: { page: page, store_id: storeId } },
       );
       return success({
         hasMore: Boolean(result.headers['x-has-more'] === 'true'),

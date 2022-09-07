@@ -1,37 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { ProductCard } from '@/components/molecules/product-card';
 import { List } from '@/components/atoms/list';
-import { ProductRepository } from '@/repositories/product';
+import { ListOf } from '@/utils';
+import { Store } from '@/types/store';
+import { StoreRepository } from '@/repositories/store';
 import { isSuccess } from '@/either';
-import { useProduct } from '@/contexts/product';
+import { StoreCard } from '@/components/molecules/store-card';
+import { City } from '@/types/city';
+import { KeeperProvider } from '@/providers/keeper';
 import { useStore } from '@/contexts/store';
 
-const productRepository = ProductRepository();
+const storeRepository = StoreRepository();
+const keeperProvider = KeeperProvider();
 
-export function ProductsPage() {
-  const navigation = useNavigation();
+export function StoresPage() {
+  const [stores, setStores] = useState<ListOf<Store & { city: City }>>([]);
   const [isRefreshing, setIsRefreshing] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const products = useProduct((context) => context.products);
-  const setProducts = useProduct((context) => context.setProducts);
-  const store = useStore((context) => context.store);
-
-  function onPress(productId: string) {
-    navigation.navigate('pages/product', { productId: productId });
-  }
+  const setStore = useStore((context) => context.setStore);
+  const navigation = useNavigation();
 
   async function refresh() {
     setIsRefreshing(true);
     setErrorMessage('');
     const page = 1;
-    const result = await productRepository.findMany(page, store.id);
+    const result = await storeRepository.findMany(page);
     if (isSuccess(result)) {
-      setProducts(result.success.items);
+      setStores(result.success.items);
       setPage((page) => page + 1);
       setHasMore(result.success.hasMore);
     } else {
@@ -44,9 +43,9 @@ export function ProductsPage() {
     if (isRefreshing) return;
     if (!hasMore) return;
     setIsLoadingMore(true);
-    const result = await productRepository.findMany(page, store.id);
+    const result = await storeRepository.findMany(page);
     if (isSuccess(result)) {
-      setProducts([...products, ...result.success.items]);
+      setStores((stores) => [...stores, ...result.success.items]);
       setPage((page) => page + 1);
       setHasMore(result.success.hasMore);
     } else {
@@ -55,9 +54,18 @@ export function ProductsPage() {
     setIsLoadingMore(false);
   }
 
+  async function select(store: Store) {
+    const stringifiedStore = JSON.stringify(store);
+    await keeperProvider.save(KeeperProvider.KEY_STORE, stringifiedStore);
+    setStore(store);
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    }
+  }
+
   useEffect(() => {
     refresh();
-  }, [store.id]);
+  }, []);
 
   useEffect(() => {
     if (errorMessage) Alert.alert('Atenção', errorMessage);
@@ -65,14 +73,14 @@ export function ProductsPage() {
 
   return (
     <List
-      data={products}
+      data={stores}
       keyExtractor={(item) => item.id}
       onRefresh={refresh}
       refreshing={isRefreshing}
       renderItem={(item) => (
-        <ProductCard
-          product={item}
-          onPress={onPress}
+        <StoreCard
+          store={item}
+          onPress={select}
         />
       )}
       loadingMore={isLoadingMore}
@@ -81,4 +89,4 @@ export function ProductsPage() {
   );
 }
 
-ProductsPage.URL = 'pages/products';
+StoresPage.URL = 'pages/stores';

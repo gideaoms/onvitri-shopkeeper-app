@@ -15,6 +15,9 @@ declare global {
       'pages/product': { productId?: string };
       'pages/session-step-one': undefined;
       'pages/session-step-two': { email: string };
+      'navigators/stack': {
+        screen: 'pages/stores';
+      };
     }
   }
 }

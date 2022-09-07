@@ -39,3 +39,5 @@ export function KeeperProvider(): IKeeperProvider {
 }
 
 KeeperProvider.KEY_TOKEN = '@onvitri/token';
+
+KeeperProvider.KEY_STORE = '@onvitri/store';

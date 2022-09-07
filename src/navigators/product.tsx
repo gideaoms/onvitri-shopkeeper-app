@@ -3,9 +3,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useTheme } from 'styled-components/native';
 import { BorderlessButton } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
-import { PlusCircle } from 'phosphor-react-native';
+import { PlusCircle, Storefront } from 'phosphor-react-native';
 import { ProductsPage } from '@/pages/products';
 import { ProductPage } from '@/pages/product';
+import { Box } from '@/components/atoms/box';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,12 +23,23 @@ export function ProductNavigator() {
           title: 'Produtos',
           headerTintColor: theme.colors['text.500'],
           headerRight: () => (
-            <BorderlessButton onPress={() => navigation.navigate('pages/product', {})}>
-              <PlusCircle
-                size={28}
-                weight="light"
-              />
-            </BorderlessButton>
+            <Box direction="row">
+              <BorderlessButton
+                onPress={() => navigation.navigate('navigators/stack', { screen: 'pages/stores' })}>
+                <Storefront
+                  size={28}
+                  weight="light"
+                />
+              </BorderlessButton>
+              <Box width="md" />
+              <BorderlessButton
+                onPress={() => navigation.navigate('pages/product', { productId: undefined })}>
+                <PlusCircle
+                  size={28}
+                  weight="light"
+                />
+              </BorderlessButton>
+            </Box>
           ),
         }}
       />

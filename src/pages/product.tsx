@@ -66,7 +66,7 @@ export function ProductPage() {
   }));
   const products = useProduct((context) => context.products);
   const setProducts = useProduct((context) => context.setProducts);
-  const stores = useStore((context) => context.stores);
+  const store = useStore((context) => context.store);
   const theme = useTheme();
   const scrollViewRef = useRef<ScrollView>(null);
 
@@ -84,7 +84,6 @@ export function ProductPage() {
   async function submit(fields: z.infer<typeof schema>) {
     setIsSubmitting(true);
     setErrorMessage('');
-    const [store] = stores;
     const productToSave: Product = {
       id: productId!,
       storeId: store.id,
@@ -137,7 +136,6 @@ export function ProductPage() {
           },
         ],
       };
-
       setProduct((product) => ({
         ...product,
         ...productModel.addPicture(product, pictureToAdd),

@@ -24,6 +24,7 @@ export function ProfileNavigator() {
         text: 'Sim',
         onPress: () => {
           keeperProvider.remove(KeeperProvider.KEY_TOKEN);
+          keeperProvider.remove(KeeperProvider.KEY_STORE);
           setUser(null);
         },
       },

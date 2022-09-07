@@ -4,10 +4,10 @@ import { City } from '@/types/city';
 import { Pressable } from '@/components/atoms/pressable';
 import { Text } from '@/components/atoms/text';
 
-export function StoreCard(props: { store: Store & { city: City }; onPress(storeId: string): void }) {
+export function StoreCard(props: { store: Store & { city: City }; onPress(store: Store): void }) {
   return (
     <Pressable
-      onPress={() => props.onPress(props.store.id)}
+      onPress={() => props.onPress(props.store)}
       padding="md"
       background="shape.100">
       <Text

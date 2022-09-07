@@ -1,18 +1,19 @@
 import zustand from 'zustand';
 import immer from 'immer';
-import { ListOf } from '@/utils';
 import { Store } from '@/types/store';
-import { City } from '@/types/city';
+import { StoreModel } from '@/models/store';
+
+const storeModel = StoreModel();
 
 export const useStore = zustand<{
-  stores: ListOf<Store & { city: City }>;
-  setStores(stores: ListOf<Store & { city: City }>): void;
+  store: Store;
+  setStore(store: Store): void;
 }>((set) => ({
-  stores: [],
-  setStores: (stores) =>
+  store: storeModel.empty(),
+  setStore: (store) =>
     set((context) =>
       immer(context, (draft) => {
-        draft.stores = stores;
+        draft.store = store;
       }),
     ),
 }));
