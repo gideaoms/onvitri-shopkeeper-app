@@ -364,6 +364,7 @@ export function ProductPage() {
         <Box height="md" />
         <Button
           loading={isSubmitting && statusRef.current === 'active'}
+          disabled={isSubmitting}
           title="Salvar e publicar"
           color="shape.100"
           background="primary"
@@ -375,6 +376,7 @@ export function ProductPage() {
         <Box height="md" />
         <Button
           loading={isSubmitting && statusRef.current === 'inactive'}
+          disabled={isSubmitting}
           title="Salvar como rascunho"
           color="shape.100"
           background="secondary"

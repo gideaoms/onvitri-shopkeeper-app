@@ -44,12 +44,14 @@ export function Button(props: {
   background?: keyof typeof theme.colors;
   loading?: boolean;
   borderColor?: keyof typeof theme.colors;
+  disabled?: boolean;
 }) {
   return (
     <ButtonContainer _borderColor={props.borderColor}>
       <BaseButton
         onPress={props.onPress}
-        _background={props.background}>
+        _background={props.background}
+        enabled={!props.disabled}>
         {props.loading ? (
           <Loading
             color={props.color}
