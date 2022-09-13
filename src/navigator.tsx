@@ -1,7 +1,6 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { hideAsync } from 'expo-splash-screen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useTheme } from 'styled-components/native';
 import { useFonts, Nunito_400Regular, Nunito_700Bold } from '@expo-google-fonts/nunito';
@@ -16,6 +15,8 @@ import { StackNavigator } from '@/navigators/stack';
 import { Store } from '@/types/store';
 import { useStore } from '@/contexts/store';
 import { StoresPage } from '@/pages/stores';
+import { Box } from '@/components/atoms/box';
+import { Loading } from '@/components/atoms/loading';
 
 const Stack = createNativeStackNavigator();
 const keeperProvider = KeeperProvider();
@@ -50,23 +51,24 @@ export function Navigator() {
     setIsLoading(false);
   }
 
-  const onLayoutRootView = useCallback(() => {
-    if (!isLoading && isFontLoaded) hideAsync();
-  }, [isLoading, isFontLoaded]);
-
   useEffect(() => {
     onStart();
   }, []);
 
-  if (isLoading) {
-    return null;
+  if (isLoading || !isFontLoaded) {
+    return (
+      <Box
+        flex={1}
+        alignItems="center"
+        justifyContent="center">
+        <Loading color="primary" />
+      </Box>
+    );
   }
 
   if (!user) {
     return (
-      <View
-        style={{ flex: 1 }}
-        onLayout={onLayoutRootView}>
+      <View style={{ flex: 1 }}>
         <NavigationContainer>
           <SessionNavigator />
         </NavigationContainer>
@@ -75,9 +77,7 @@ export function Navigator() {
   }
 
   return (
-    <View
-      style={{ flex: 1 }}
-      onLayout={onLayoutRootView}>
+    <View style={{ flex: 1 }}>
       <NavigationContainer>
         {store.id ? (
           <Stack.Navigator
