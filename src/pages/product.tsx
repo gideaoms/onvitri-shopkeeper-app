@@ -3,7 +3,7 @@ import { ScrollView, Alert, Image, ActivityIndicator } from 'react-native';
 import uuid from 'react-native-uuid';
 import { Controller, useForm } from 'react-hook-form';
 import { RectButton, BorderlessButton } from 'react-native-gesture-handler';
-import { PlusCircle, HourglassHigh, Trash } from 'phosphor-react-native';
+import { PlusCircle, Spinner, Trash } from 'phosphor-react-native';
 import {
   launchCameraAsync,
   launchImageLibraryAsync,
@@ -277,7 +277,7 @@ export function ProductPage() {
                     justifyContent="center"
                     background="shape.100">
                     {picture.isUploading ? (
-                      <HourglassHigh
+                      <Spinner
                         size={24}
                         weight="light"
                       />
