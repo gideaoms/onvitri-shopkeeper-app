@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useRef, useState } from 'react';
-import { ScrollView, Alert, Image, ActivityIndicator } from 'react-native';
+import { ScrollView, Alert, Image } from 'react-native';
 import uuid from 'react-native-uuid';
 import { Controller, useForm } from 'react-hook-form';
 import { RectButton, BorderlessButton } from 'react-native-gesture-handler';
@@ -29,6 +29,7 @@ import { basename, extname, toCents, toCurrency } from '@/utils';
 import { PictureModel } from '@/models/picture';
 import { StoreModel } from '@/models/store';
 import { CityModel } from '@/models/city';
+import { Loading } from '@/components/atoms/loading';
 
 const schema = z.object({
   title: z.string().min(1, 'Campo obrigatório'),
@@ -75,6 +76,9 @@ export function ProductPage() {
     const result = await productRepository.findOne(productId);
     if (isSuccess(result)) {
       setProduct(result.success);
+      setValue('title', result.success.title);
+      setValue('description', result.success.description);
+      setValue('price', result.success.price.formatted);
     } else {
       setErrorMessage(result.failure.message);
     }
@@ -165,7 +169,7 @@ export function ProductPage() {
     const result = await launchCameraAsync({
       mediaTypes: MediaTypeOptions.Images,
       allowsEditing: true,
-      quality: 1,
+      quality: 0.7,
     });
     addPicture(result);
   }
@@ -174,7 +178,7 @@ export function ProductPage() {
     const result = await launchImageLibraryAsync({
       mediaTypes: MediaTypeOptions.Images,
       allowsEditing: true,
-      quality: 1,
+      quality: 0.7,
       allowsMultipleSelection: false,
     });
     addPicture(result);
@@ -192,21 +196,13 @@ export function ProductPage() {
     }
   }, [productId]);
 
-  useEffect(() => {
-    if (product) {
-      setValue('title', product.title);
-      setValue('description', product.description);
-      setValue('price', product.price.formatted);
-    }
-  }, [product]);
-
   if (isRefreshing) {
     return (
       <Box
         flex={1}
         alignItems="center"
         justifyContent="center">
-        <ActivityIndicator />
+        <Loading color="primary" />
       </Box>
     );
   }
