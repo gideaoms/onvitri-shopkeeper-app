@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useRef, useState } from 'react';
-import { ScrollView, Alert, Image } from 'react-native';
+import { ScrollView, Alert } from 'react-native';
 import uuid from 'react-native-uuid';
 import { Controller, useForm } from 'react-hook-form';
 import { RectButton, BorderlessButton } from 'react-native-gesture-handler';
@@ -30,6 +30,7 @@ import { PictureModel } from '@/models/picture';
 import { StoreModel } from '@/models/store';
 import { CityModel } from '@/models/city';
 import { Loading } from '@/components/atoms/loading';
+import { Image } from '@/components/atoms/image';
 
 const schema = z.object({
   title: z.string().min(1, 'Campo obrigatório'),
@@ -271,7 +272,7 @@ export function ProductPage() {
                     radius={5}
                     alignItems="center"
                     justifyContent="center"
-                    background="shape.100">
+                    background="shape.500">
                     {picture.isUploading ? (
                       <Spinner
                         size={24}
@@ -279,11 +280,9 @@ export function ProductPage() {
                       />
                     ) : (
                       <Image
-                        source={{
-                          uri: variant.url,
-                          width: 75,
-                          height: 75,
-                        }}
+                        variant={variant}
+                        width={75}
+                        height={75}
                         resizeMode="cover"
                       />
                     )}
@@ -348,7 +347,8 @@ export function ProductPage() {
                 border={1}
                 radius={5}
                 justifyContent="center"
-                alignItems="center">
+                alignItems="center"
+                background="shape.500">
                 <PlusCircle
                   size={24}
                   weight="light"

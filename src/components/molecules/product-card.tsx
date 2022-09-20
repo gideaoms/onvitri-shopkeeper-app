@@ -1,6 +1,4 @@
 import React from 'react';
-import { Image } from 'react-native';
-import styled from 'styled-components/native';
 import { ImageSquare } from 'phosphor-react-native';
 import { Store } from '@/types/store';
 import { City } from '@/types/city';
@@ -10,20 +8,10 @@ import { Product } from '@/types/product';
 import { ProductModel } from '@/models/product';
 import { Box } from '@/components/atoms/box';
 import { PictureModel } from '@/models/picture';
+import { Image } from '@/components/atoms/image';
 
 const productModel = ProductModel();
 const pictureModel = PictureModel();
-
-const ImageContainer = styled.View`
-  width: 80px;
-  height: 80px;
-  border-radius: 5px;
-  border-width: 1px;
-  border-color: ${({ theme }) => theme.colors['text.300']};
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-`;
 
 export function ProductCard(props: {
   product: Product & { store: Store & { city: City } };
@@ -38,22 +26,36 @@ export function ProductCard(props: {
         direction="row"
         alignItems="center">
         {productModel.hasPicture(props.product) ? (
-          <ImageContainer>
+          <Box
+            width={80}
+            height={80}
+            radius={5}
+            alignItems="center"
+            justifyContent="center"
+            border={1}
+            borderColor="text.300"
+            background="shape.500">
             <Image
-              source={{
-                uri: pictureModel.findVariant(props.product.pictures[0].variants, 'sm').url,
-                width: 80,
-                height: 80,
-              }}
+              variant={pictureModel.findVariant(props.product.pictures[0].variants, 'sm')}
+              width={80}
+              height={80}
             />
-          </ImageContainer>
+          </Box>
         ) : (
-          <ImageContainer>
+          <Box
+            width={80}
+            height={80}
+            radius={5}
+            alignItems="center"
+            justifyContent="center"
+            border={1}
+            borderColor="text.300"
+            background="shape.500">
             <ImageSquare
               size={24}
               weight="light"
             />
-          </ImageContainer>
+          </Box>
         )}
         <Box width="sm" />
         <Box flex={1}>
