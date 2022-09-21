@@ -23,24 +23,9 @@ export function SessionRepository(): ISessionRepository {
     }
   }
 
-  async function create(email: string) {
+  async function create(email: string, password: string) {
     try {
-      await http.post<UserObject>('sessions', { email: email });
-      return success(undefined);
-    } catch (err) {
-      if (err instanceof AxiosError) {
-        return failure(new BadRequestError(err.response?.data.message));
-      }
-      throw err;
-    }
-  }
-
-  async function activate(email: string, validationCode: string) {
-    try {
-      const result = await http.put<UserObject>('sessions/activate', {
-        email: email,
-        validation_code: validationCode,
-      });
+      const result = await http.post<UserObject>('sessions', { email: email, password: password });
       return success(userMapper.fromObject(result.data));
     } catch (err) {
       if (err instanceof AxiosError) {
@@ -53,6 +38,5 @@ export function SessionRepository(): ISessionRepository {
   return {
     findOne: findOne,
     create: create,
-    activate: activate,
   };
 }
