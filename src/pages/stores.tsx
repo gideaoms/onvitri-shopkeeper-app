@@ -24,6 +24,15 @@ export function StoresPage() {
   const setStore = useStore((context) => context.setStore);
   const navigation = useNavigation();
 
+  async function setCurrentStore(store: Store) {
+    const stringifiedStore = JSON.stringify(store);
+    await keeperProvider.save(KeeperProvider.KEY_STORE, stringifiedStore);
+    setStore(store);
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    }
+  }
+
   async function refresh() {
     setIsRefreshing(true);
     setErrorMessage('');
@@ -33,6 +42,11 @@ export function StoresPage() {
       setStores(result.success.items);
       setPage((page) => page + 1);
       setHasMore(result.success.hasMore);
+      const hasOnlyOne = result.success.items.length === 1;
+      if (hasOnlyOne) {
+        const [store] = result.success.items;
+        setCurrentStore(store);
+      }
     } else {
       setErrorMessage(result.failure.message);
     }
@@ -54,15 +68,6 @@ export function StoresPage() {
     setIsLoadingMore(false);
   }
 
-  async function select(store: Store) {
-    const stringifiedStore = JSON.stringify(store);
-    await keeperProvider.save(KeeperProvider.KEY_STORE, stringifiedStore);
-    setStore(store);
-    if (navigation.canGoBack()) {
-      navigation.goBack();
-    }
-  }
-
   useEffect(() => {
     refresh();
   }, []);
@@ -80,7 +85,7 @@ export function StoresPage() {
       renderItem={(item) => (
         <StoreCard
           store={item}
-          onPress={select}
+          onPress={setCurrentStore}
         />
       )}
       loadingMore={isLoadingMore}

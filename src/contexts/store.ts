@@ -5,10 +5,7 @@ import { StoreModel } from '@/models/store';
 
 const storeModel = StoreModel();
 
-export const useStore = zustand<{
-  store: Store;
-  setStore(store: Store): void;
-}>((set) => ({
+export const useStore = zustand<{ store: Store; setStore(store: Store): void }>((set) => ({
   store: storeModel.empty(),
   setStore: (store) =>
     set((context) =>

@@ -48,13 +48,10 @@ export function ProductPage() {
   const navigation = useNavigation();
   const route = useRoute();
   const { productId } = route.params as { productId?: string };
-  const {
-    control,
-    setValue,
-    setError,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({ resolver: zodResolver(schema), defaultValues: { title: '', description: '', price: '' } });
+  const { control, setValue, setError, handleSubmit, formState } = useForm({
+    resolver: zodResolver(schema),
+    defaultValues: { title: '', description: '', price: '' },
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
@@ -219,7 +216,7 @@ export function ProductPage() {
               label="Título"
               onChange={onChange}
               value={value}
-              error={errors.title?.message}
+              error={formState.errors.title?.message}
             />
           )}
         />
@@ -233,7 +230,7 @@ export function ProductPage() {
               keyboardType="numeric"
               onChange={(money) => onChange(toCurrency(money))}
               value={value}
-              error={errors.price?.message}
+              error={formState.errors.price?.message}
             />
           )}
         />
@@ -248,7 +245,7 @@ export function ProductPage() {
               numberOfLines={3}
               onChange={onChange}
               value={value}
-              error={errors.description?.message}
+              error={formState.errors.description?.message}
             />
           )}
         />
